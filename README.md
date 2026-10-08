@@ -4,7 +4,7 @@ A Django RESTful API for managing personal or team tasks — featuring JWT auth,
 
 > This is an extended fork of [omidcodes/taskflow-api](https://github.com/omidcodes/taskflow-api). See [What's new in this fork](#-whats-new-in-this-fork) for the additions.
 
-📈 [View Test Coverage Report](https://omidcodes.github.io/taskflow-api/)
+📈 [View Test Coverage Report](https://vivashwan.github.io/taskflow-api/)
 
 ---
 

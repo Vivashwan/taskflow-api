@@ -79,6 +79,8 @@ jobs:
   deploy-coverage:
     needs: build-test-lint
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # push the coverage report to the gh-pages branch
 
     steps:
     - uses: actions/checkout@v4
