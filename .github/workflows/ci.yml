@@ -25,11 +25,10 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
-      rabbitmq:
-        image: rabbitmq:3.12-management
+      redis:
+        image: redis:7-alpine
         ports:
-          - 5672:5672
-          - 15672:15672
+          - 6379:6379
 
     env:
       DEBUG: False
@@ -40,7 +39,7 @@ jobs:
       POSTGRES_PASSWORD: postgres
       POSTGRES_HOST: localhost
       POSTGRES_PORT: 5432
-      CELERY_BROKER_URL: amqp://guest:guest@localhost:5672//
+      REDIS_URL: redis://localhost:6379/0
 
     steps:
     - uses: actions/checkout@v4

@@ -4,7 +4,6 @@ import re
 import string
 import sys
 
-
 RED = "\033[31m"
 
 COMMIT_TYPES = {

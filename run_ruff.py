@@ -9,13 +9,13 @@ from tempfile import NamedTemporaryFile
 
 def get_staged_python_files():
     result = subprocess.run(
-        ['git', 'diff', '--cached', '--name-only', '--diff-filter=ACM'], capture_output=True, text=True
+        ['git', 'diff', '--cached', '--name-only', '--diff-filter=ACM'], capture_output=True, text=True, check=False
     )
     return [f for f in result.stdout.strip().splitlines() if f.endswith('.py')]
 
 
 def get_changed_lines(file_path):
-    result = subprocess.run(['git', 'diff', '--cached', '-U0', file_path], capture_output=True, text=True)
+    result = subprocess.run(['git', 'diff', '--cached', '-U0', file_path], capture_output=True, text=True, check=False)
     lines = []
     for line in result.stdout.splitlines():
         if line.startswith('@@'):
@@ -36,7 +36,7 @@ def apply_fixes_to_changed_lines(file_path, changed_lines):
     with NamedTemporaryFile('w+', delete=False) as temp:
         temp_path = temp.name
     shutil.copyfile(file_path, temp_path)
-    subprocess.run(['ruff', 'check', '--fix', '--select', 'Q', temp_path], capture_output=True)
+    subprocess.run(['ruff', 'check', '--fix', '--select', 'Q', temp_path], capture_output=True, check=False)
 
     original_lines = original.splitlines()
     fixed_lines = Path(temp_path).read_text().splitlines()
@@ -50,7 +50,7 @@ def apply_fixes_to_changed_lines(file_path, changed_lines):
             new_lines.append(orig)
 
     Path(file_path).write_text('\n'.join(new_lines) + '\n')
-    subprocess.run(['git', 'add', file_path])
+    subprocess.run(['git', 'add', file_path], check=False)
 
 
 def main():

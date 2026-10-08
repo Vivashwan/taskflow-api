@@ -10,7 +10,9 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt && apt-get install -y netcat
+RUN apt-get update && apt-get install -y --no-install-recommends netcat-openbsd \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --upgrade pip && pip install -r requirements.txt
 
 # Copy project files
 COPY . .

@@ -1,4 +1,4 @@
-.PHONY: db wait-db ensure-db rabbit web-stop migrate dev help
+.PHONY: db wait-db ensure-db redis web-stop migrate dev help
 
 help:                ## List available targets
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -27,9 +27,9 @@ ensure-db:           ## Create taskflow DB if it doesn’t already exist
 	      && docker compose exec db psql -U postgres -c "CREATE DATABASE taskflow;")
 	@echo "✅ Database is ready."
 
-rabbit:              ## Start RabbitMQ service
-	@echo "🔍 Starting 'rabbitmq' service…"
-	@docker compose up -d rabbitmq
+redis:               ## Start Redis (Celery broker + cache)
+	@echo "🔍 Starting 'redis' service…"
+	@docker compose up -d redis
 
 web-stop:            ## Stop & remove the web container
 	@echo "🛑 Stopping & removing 'web'…"
@@ -43,5 +43,5 @@ migrate:             ## Run Django migrations
 
 # ------------------------ RUN EVERYTHING ------------------------
 
-dev: db wait-db ensure-db rabbit web-stop migrate  ## Bootstrap everything
+dev: db wait-db ensure-db redis web-stop migrate  ## Bootstrap everything
 	@echo "✅ Ready for dev! Run: python manage.py runserver"

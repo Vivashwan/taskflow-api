@@ -1,0 +1,4 @@
+[lint]
+# Django and DRF declare config as class attributes (Meta.fields, search_fields,
+# filter_backends...). RUF012 flags these as mutable class defaults, a false positive here.
+ignore = ["RUF012"]
